@@ -14,7 +14,7 @@ int main()
         cout << "The DLL is loaded.";
         SomeFunction MsgBox = (SomeFunction)GetProcAddress(dll, "SomeFunction"); //calling the function which is contained in the DLL
         MsgBox((const LPCSTR)"The DLL was loaded into memory successfully.");
-        FreeLibrary((HMODULE)dll); //freeing the memory which was used by DLL
+        FreeLibrary((HMODULE)dll); //freeing the memory which was used by the DLL
     }
     else
     {
