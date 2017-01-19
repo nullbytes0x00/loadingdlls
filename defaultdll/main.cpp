@@ -1,24 +1,31 @@
-#include <iostream>
-#include <windows.h>
+#include "main.h"
 
-using namespace std;
-typedef void (*SomeFunction)(const LPCSTR);
-
-HINSTANCE dll;
-
-int main()
+// a sample exported function
+void DLL_EXPORT SomeFunction(const LPCSTR sometext)
 {
-    dll = LoadLibrary("defaultdll.dll");
+    MessageBoxA(0, sometext, "DLL Message", MB_OK | MB_ICONINFORMATION);
+}
 
-    if (dll != 0){
-        cout << "The DLL is loaded.";
-        SomeFunction MsgBox = (SomeFunction)GetProcAddress(dll, "SomeFunction");
-        MsgBox((const LPCSTR)"The DLL was loaded into memory successfully.");
-        FreeLibrary((HMODULE)dll);
-    }
-    else
+extern "C" DLL_EXPORT BOOL APIENTRY DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+    switch (fdwReason)
     {
-        cout << "Something went wrong.\n";
+        case DLL_PROCESS_ATTACH:
+            // attach to process
+            // return FALSE to fail DLL load
+            break;
+
+        case DLL_PROCESS_DETACH:
+            // detach from process
+            break;
+
+        case DLL_THREAD_ATTACH:
+            // attach to thread
+            break;
+
+        case DLL_THREAD_DETACH:
+            // detach from thread
+            break;
     }
-    return 0;
+    return TRUE; // succesful
 }
